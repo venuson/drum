@@ -126,6 +126,15 @@ class DrumPlayer:
    
     def __play_method(self):
         while True:
+            if self.play_Metro:
+                print("play pre beat tone")
+                beat_time = 60 / self.modified_speed if self.modified_speed > 0 else self.sheet[self.begin_section].speed
+                for i in range(0, 4):
+                    st = time.time()
+                    self.__play_metro(i == 0)
+                    cost = time.time() - st
+                    time.sleep(beat_time - cost)
+                    
             for i in range(self.begin_section, self.end_section):
                 if self.modified_speed == 0:
                     beat_time = 60 / self.sheet[i].speed
