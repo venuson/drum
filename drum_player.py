@@ -35,34 +35,37 @@ class DrumPlayer:
         pygame.mixer.init()
         self.sound =[]
         if os.name == 'nt' :
-            self.sound.append([pygame.mixer.Sound('.\\res\\metro_1.mp3'), pygame.mixer.Sound('.\\res\\metro_2.mp3')]) #节拍器
-            self.sound.append(pygame.mixer.Sound('.\\res\\hihat.mp3')) #踩镲 
-            self.sound.append(pygame.mixer.Sound('.\\res\\hihat-open.mp3')) #踩镲开
-            self.sound.append(pygame.mixer.Sound('.\\res\\hihat-foot.mp3')) #踩镲脚
-            self.sound.append(pygame.mixer.Sound('.\\res\\snare-drum.mp3')) #军鼓
-            self.sound.append(pygame.mixer.Sound('.\\res\\snare-stick.mp3')) #军鼓边击
-            self.sound.append(pygame.mixer.Sound('.\\res\\tom1.mp3')) #tom1
-            self.sound.append(pygame.mixer.Sound('.\\res\\tom2.mp3')) #tom2
-            self.sound.append(pygame.mixer.Sound('.\\res\\tom3.mp3')) #tom3
-            self.sound.append(pygame.mixer.Sound('.\\res\\bass.mp3')) #底鼓
-            self.sound.append(pygame.mixer.Sound('.\\res\\crash.mp3'))  #吊镲
-            self.sound.append(pygame.mixer.Sound('.\\res\\ride.mp3')) #叮叮镲
-            self.sound.append(pygame.mixer.Sound('.\\res\\ride-bell.mp3')) #叮叮镲-帽
+            self.sound.append([pygame.mixer.Sound('.\\res\\metro_1.mp3'), 
+                               pygame.mixer.Sound('.\\res\\metro_2.mp3')]) #节拍器
+            self.sound.append(pygame.mixer.Sound('.\\res\\hihat.mp3')) #踩镲 1
+            self.sound.append(pygame.mixer.Sound('.\\res\\hihat-open.mp3')) #踩镲开 2
+            self.sound.append(pygame.mixer.Sound('.\\res\\hihat-foot.mp3')) #踩镲脚 3
+            self.sound.append(pygame.mixer.Sound('.\\res\\snare-drum.mp3')) #军鼓 4
+            self.sound.append(pygame.mixer.Sound('.\\res\\snare-stick.mp3')) #军鼓边击 5
+            self.sound.append(pygame.mixer.Sound('.\\res\\tom1.mp3')) #tom1 6
+            self.sound.append(pygame.mixer.Sound('.\\res\\tom2.mp3')) #tom2 7
+            self.sound.append(pygame.mixer.Sound('.\\res\\tom3.mp3')) #tom3 8
+            self.sound.append(pygame.mixer.Sound('.\\res\\bass.mp3')) #底鼓 9
+            self.sound.append(pygame.mixer.Sound('.\\res\\crash.mp3'))  #吊镲 10
+            self.sound.append(pygame.mixer.Sound('.\\res\\ride.mp3')) #叮叮镲 11
+            self.sound.append(pygame.mixer.Sound('.\\res\\ride-bell.mp3')) #叮叮镲-帽 12
+            self.sound.append(pygame.mixer.Sound('.\\res\\ride-long.mp3')) #滚镲 13
         else:
-            self.sound.append([pygame.mixer.Sound(
-                './res/metro_1.mp3'), pygame.mixer.Sound('./res/metro_2.mp3')])
-            self.sound.append(pygame.mixer.Sound('./res/hihat.mp3')) #踩镲 
-            self.sound.append(pygame.mixer.Sound('./res/hihat-open.mp3')) #踩镲开
-            self.sound.append(pygame.mixer.Sound('./res/hihat-foot.mp3')) #踩镲脚
-            self.sound.append(pygame.mixer.Sound('./res/snare-drum.mp3')) #军鼓
-            self.sound.append(pygame.mixer.Sound('./res/snare-stick.mp3')) #军鼓边击
-            self.sound.append(pygame.mixer.Sound('./res/tom1.mp3')) #tom1
-            self.sound.append(pygame.mixer.Sound('./res/tom2.mp3')) #tom2
-            self.sound.append(pygame.mixer.Sound('./res/tom3.mp3')) #tom3
-            self.sound.append(pygame.mixer.Sound('./res/bass.mp3')) #底鼓
-            self.sound.append(pygame.mixer.Sound('./res/crash.mp3'))  #吊镲
-            self.sound.append(pygame.mixer.Sound('./res/ride.mp3')) #叮叮镲
-            self.sound.append(pygame.mixer.Sound('./res/ride-bell.mp3')) #叮叮镲-帽
+            self.sound.append([pygame.mixer.Sound('./res/metro_1.mp3'), 
+                               pygame.mixer.Sound('./res/metro_2.mp3')]) #节拍器 0
+            self.sound.append(pygame.mixer.Sound('./res/hihat.mp3')) #踩镲 1
+            self.sound.append(pygame.mixer.Sound('./res/hihat-open.mp3')) #踩镲开 2
+            self.sound.append(pygame.mixer.Sound('./res/hihat-foot.mp3')) #踩镲脚 3
+            self.sound.append(pygame.mixer.Sound('./res/snare-drum.mp3')) #军鼓 4
+            self.sound.append(pygame.mixer.Sound('./res/snare-stick.mp3')) #军鼓边击 5
+            self.sound.append(pygame.mixer.Sound('./res/tom1.mp3')) #tom1 6
+            self.sound.append(pygame.mixer.Sound('./res/tom2.mp3')) #tom2 7
+            self.sound.append(pygame.mixer.Sound('./res/tom3.mp3')) #tom3 8
+            self.sound.append(pygame.mixer.Sound('./res/bass.mp3')) #底鼓 9
+            self.sound.append(pygame.mixer.Sound('./res/crash.mp3'))  #吊镲 10
+            self.sound.append(pygame.mixer.Sound('./res/ride.mp3')) #叮叮镲 11
+            self.sound.append(pygame.mixer.Sound('./res/ride-bell.mp3')) #叮叮镲-帽 12
+            self.sound.append(pygame.mixer.Sound('./res/ride-long.mp3')) #滚镲 13
     
     def load_sheet(self, file):
         with open(file, 'r') as f:
@@ -122,20 +125,22 @@ class DrumPlayer:
             
     def __play_metro(self, is_start=True):
         if self.play_Metro:
+            print('节拍器 ', is_start)
             self.sound[0][0 if is_start else 1].play()
    
     def __play_method(self):
         while True:
-            if self.play_Metro:
-                print("play pre beat tone")
-                beat_time = 60 / self.modified_speed if self.modified_speed > 0 else self.sheet[self.begin_section].speed
-                for i in range(0, 4):
-                    st = time.time()
-                    self.__play_metro(i == 0)
-                    cost = time.time() - st
-                    time.sleep(beat_time - cost)
+            # if self.play_Metro:
+            #     print("play pre beat tone")
+            #     beat_time = 60 / self.modified_speed if self.modified_speed > 0 else self.sheet[self.begin_section].speed
+            #     for i in range(0, 4):
+            #         st = time.time()
+            #         self.__play_metro(i == 0)
+            #         cost = time.time() - st
+            #         time.sleep(beat_time - cost)
                     
             for i in range(self.begin_section, self.end_section):
+                print('play section ', i)
                 if self.modified_speed == 0:
                     beat_time = 60 / self.sheet[i].speed
                 else:
@@ -152,6 +157,7 @@ class DrumPlayer:
                         return
                     if j % self.sheet[i].divide_num == 0:
                         self.__play_metro(j == 0)
+                    print('play ', j)
                     self.__play_sound(self.sheet[i].sound_data[j])
                     cost = time.time() - st
                     time.sleep(shot_time - cost)
