@@ -119,9 +119,14 @@ class DrumPlayer:
 
     def __play_sound(self, data):
         for i in range(len(data)):
-            tone = data[i]
+            tone = data[i] % 100            
             if tone < len(self.sound):
-                self.sound[tone].play()
+                volume =  data[i] // 100
+            if volume > 0:
+                self.sound[tone].set_volume(volume * 0.1)
+            else :
+                self.sound[tone].set_volume(1)
+            self.sound[tone].play()
             
     def __play_metro(self, is_start=True):
         if self.play_Metro:
@@ -160,7 +165,8 @@ class DrumPlayer:
                     print('play ', j)
                     self.__play_sound(self.sheet[i].sound_data[j])
                     cost = time.time() - st
-                    time.sleep(shot_time - cost)
+                    if cost > 0:
+                        time.sleep(shot_time - cost)
 
             self.repeat_time -= 1
             if self.repeat_time == 0:
