@@ -50,6 +50,9 @@ class DrumPlayer:
             self.sound.append(pygame.mixer.Sound('.\\res\\ride.mp3')) #叮叮镲 11
             self.sound.append(pygame.mixer.Sound('.\\res\\ride-bell.mp3')) #叮叮镲-帽 12
             self.sound.append(pygame.mixer.Sound('.\\res\\ride-long.mp3')) #滚镲 13
+            self.sound.append(pygame.mixer.Sound('.\\res\\sd-side.mp3')) #军鼓边击 14
+            self.sound.append(pygame.mixer.Sound('.\\res\\cow-bell.mp3')) #牛铃 15
+            self.sound.append(pygame.mixer.Sound('.\\res\\snare-drum-heavy.mp3')) #军鼓重击 16
         else:
             self.sound.append([pygame.mixer.Sound('./res/metro_1.mp3'), 
                                pygame.mixer.Sound('./res/metro_2.mp3')]) #节拍器 0
@@ -66,6 +69,9 @@ class DrumPlayer:
             self.sound.append(pygame.mixer.Sound('./res/ride.mp3')) #叮叮镲 11
             self.sound.append(pygame.mixer.Sound('./res/ride-bell.mp3')) #叮叮镲-帽 12
             self.sound.append(pygame.mixer.Sound('./res/ride-long.mp3')) #滚镲 13
+            self.sound.append(pygame.mixer.Sound('./res/sd-side.mp3')) #军鼓边击 14
+            self.sound.append(pygame.mixer.Sound('./res/cow-bell.mp3')) #牛铃 15
+            self.sound.append(pygame.mixer.Sound('./res/snare-drum-heavy.mp3')) #军鼓重击 16
     
     def load_sheet(self, file):
         with open(file, 'r') as f:
@@ -165,7 +171,7 @@ class DrumPlayer:
                     print('play ', j)
                     self.__play_sound(self.sheet[i].sound_data[j])
                     cost = time.time() - st
-                    if cost > 0:
+                    if shot_time - cost > 0:
                         time.sleep(shot_time - cost)
 
             self.repeat_time -= 1
